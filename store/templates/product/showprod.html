@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}All Product{% endblock title %}
+{% block body %}
+
+
+<div class="container py-4" >
+    <div class='row'>
+        <div class='col-md-12'>
+      {% if product %}
+            <table class="table table-striped-columns">
+                <thead>
+
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">description</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Edit</th>
+                    {% if user.is_superuser %}
+                    <th scope="col">Delete</th>
+                   {% endif %}
+                  </tr>
+                </thead>
+                <tbody>
+                {% for data in product %}
+                  <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{data.p_name}}</td>
+                    <td>{{data.p_desc}}</td>
+                    <td>{{data.p_price}}</td>
+                    <td>{{data.p_cat}}</td>
+                    
+                  </td>
+                    
+                  <td><a href="{% url 'prod-edit' data.p_id %}" class="btn btn-info"><i class="fas fa-pencil"></i></a></td>  <!-- === default primary key is id (auto increment)-->
+                  {% if user.is_superuser %}
+                  <td><a href="{% url 'prod-delete' data.p_id %}" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
+                  {% endif %}
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            No record found!
+{% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
